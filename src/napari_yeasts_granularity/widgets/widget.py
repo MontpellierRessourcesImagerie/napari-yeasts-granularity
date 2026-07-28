@@ -4,26 +4,22 @@ from qtpy.QtWidgets import (
     QWidget,
     QVBoxLayout
 )
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    import napari
-from napari.utils.notifications import show_info
+from napari.qt.threading import create_worker
 
 class Widget(QWidget):
-    def __init__(self, l_type, viewer: "napari.viewer.Viewer"): # type: ignore
+    def __init__(self, viewer):
         super().__init__()
         self.viewer     = viewer
         self.sameRowSet = set()
         self.options    = self.getOptions()
-        self.operation  = None
-        self.l_type     = l_type
+        self.operator   = None
         self.widget     = self.createLayout()
 
     def createLayout(self):
         widget = OptionsWidget(
             viewer=self.viewer, 
             options=self.options, 
-            layout_type=self.l_type, 
+            layout_type='grid', 
             client=self,
             sameRowSet=self.sameRowSet
         )
@@ -36,7 +32,26 @@ class Widget(QWidget):
     @abstractmethod
     def getOptions(self):
         raise Exception("Abstract method getOptions of class Widget called!")
+
+    @abstractmethod
+    def create_operator(self):
+        raise Exception("Abstract method create_operator of class Widget called!")
     
     def apply(self):
-        show_info(f"Saved settings for: {self.options.applicationName}.{self.options.optionsName}")
+        self.operator = self.create_operator()
+        if self.operator is None:
+            return
+        worker = create_worker(
+            self.operator.run,
+            _progress={
+                "desc": self.operator.get_message()
+            },
+        )
+        
+        worker.finished.connect(self.displayResult)
+        worker.start()
+
+    @abstractmethod
+    def displayResult(self):
+        raise Exception("Abstract method displayResult of class Widget called!")
     

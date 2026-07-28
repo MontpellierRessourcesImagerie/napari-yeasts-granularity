@@ -34,7 +34,8 @@ dependencies = [
     "scipy",
     "xarray",
     "pandas",
-    "trackpy"
+    "trackpy",
+    "auto-options-python"
 ]
 
 # [project.optional-dependencies]

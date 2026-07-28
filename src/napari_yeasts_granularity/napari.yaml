@@ -1,25 +1,20 @@
-name: napari-yeasts-texture
-display_name: Yeasts Texture
+name: napari-yeasts-granularity
+display_name: Yeasts granularity
 # use 'hidden' to remove plugin from napari hub search results
 visibility: public
 # see https://napari.org/stable/plugins/technical_references/manifest.html#fields for valid categories
 # categories: []
 contributions:
   commands:
-    - id: napari-yeasts-texture.segment_nuclei
-      python_name: napari_yeasts_texture:SegmentNucleiWidget
+    - id: napari-yeasts-granularity.segment_nuclei
+      python_name: napari_yeasts_granularity.widgets.segment_nuclei_widget:SegmentNucleiWidget
       title: Segment nuclei
-    - id: napari-yeasts-texture.metrics
-      python_name: napari_yeasts_texture:MetricsWidget
-      title: Metrics
-    - id: napari-yeasts-texture.maximas_finder
-      python_name: napari_yeasts_texture:MaximasFinderWidget
-      title: Maximas finder
+    - id: napari-yeasts-granularity.measure_nuclei
+      python_name: napari_yeasts_granularity.widgets.measure_nuclei_widget:MeasureNucleiWidget
+      title: Measure nuclei
   widgets:
-    - command: napari-yeasts-texture.segment_nuclei
+    - command: napari-yeasts-granularity.segment_nuclei
       display_name: Segment nuclei
-    - command: napari-yeasts-texture.metrics
-      display_name: Metrics
-    - command: napari-yeasts-texture.maximas_finder
-      display_name: Maximas finder
+    - command: napari-yeasts-granularity.measure_nuclei
+      display_name: Measure nuclei
     

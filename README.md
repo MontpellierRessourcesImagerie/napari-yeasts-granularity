@@ -1,1 +1,2 @@
-# Napari-PyBlobSeg
+# napari-yeasts-granularity
+

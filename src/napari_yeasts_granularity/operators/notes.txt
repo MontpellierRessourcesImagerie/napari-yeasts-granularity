@@ -1,0 +1,15 @@
+
+Workflow:
+---------
+- Segmenter les noyaux en 3D.
+- Retirer ceux qui touchent les bords.
+- Tracker les noyaux.
+- Retirer les tracks incomplètes.
+- Faire une projection.
+
+
+Mesures:
+--------
+- Spots
+- Circularité/solidité
+- StdDev
