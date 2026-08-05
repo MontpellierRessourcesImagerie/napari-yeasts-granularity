@@ -105,7 +105,6 @@ class MeasureSpotsOperator(BaseMeasureOperator):
 
         return counts_per_cell
 
-
     def _measure_objects_3D(self, labels_frame, intensity_frame, spacing, rows, t=0, nT=1):
         counts_per_cell = self._find_spots_3D(intensity_frame, labels_frame)
         for cell_id, n_spots in enumerate(counts_per_cell):
@@ -117,7 +116,8 @@ class MeasureSpotsOperator(BaseMeasureOperator):
                 "T" : t,
                 "Num. spots" : n_spots
             })
-    
+
+
 if __name__ == "__main__":
     from .data_loader import DataLoader
 

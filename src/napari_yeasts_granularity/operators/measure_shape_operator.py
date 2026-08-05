@@ -14,8 +14,6 @@ class MeasureShapeOperator(BaseMeasureOperator):
             intensity_image=intensity_frame, 
             spacing=spacing
         )
-        nL = np.max(labels_frame)
-
         for region in all_props:
             label = int(region.label)
             volume = region.area

@@ -52,6 +52,6 @@ class Widget(QWidget):
         worker.start()
 
     @abstractmethod
-    def displayResult(self):
+    def displayResult(self, *args):
         raise Exception("Abstract method displayResult of class Widget called!")
     

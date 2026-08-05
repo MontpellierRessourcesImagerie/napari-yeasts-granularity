@@ -4,6 +4,7 @@ from napari_yeasts_granularity import (
     MeasureShapeOperator,
     MeasureSpotsOperator,
     MeasurementsManager,
+    MeasureColocOperator
 )
 from napari_yeasts_granularity.bridge import NapariBridge
 from autooptions import Options
@@ -14,6 +15,7 @@ class MeasureNucleiWidget(Widget):
 
     opt_nuclei = "Nuclei"
     opt_intensities = "Intensities"
+    opt_secondary = "Colocalization"
     opt_use_intensities = "Use intensities?"
     opt_use_shape = "Use shape?"
     opt_use_spots = "Use spots?"
@@ -30,12 +32,14 @@ class MeasureNucleiWidget(Widget):
         options.addBool(self.opt_use_shape, value=True)
         options.addBool(self.opt_use_spots, value=True)
         options.addFloat(self.opt_prominence, value=MeasureSpotsOperator.get_default_prominence())
+        options.addImage(self.opt_secondary, optional=(True, True))
         options.load()
         return options
 
     def create_operator(self):
         nuclei_layer_name = self.options.value(self.opt_nuclei)
         intensities_layer_name = self.options.value(self.opt_intensities)
+        secondary_layer_name = self.options.value(self.opt_secondary)
 
         op = MeasurementsManager()
         input_intensities, scale = NapariBridge.get_image_as_xarray(
@@ -53,6 +57,7 @@ class MeasureNucleiWidget(Widget):
         use_shape = self.options.value(self.opt_use_shape)
         use_spots = self.options.value(self.opt_use_spots)
         prominence = self.options.value(self.opt_prominence)
+        use_coloc = secondary_layer_name is not None and secondary_layer_name in self.viewer.layers
 
         if use_intensities:
             mio = MeasureIntensitiesOperator()
@@ -64,10 +69,18 @@ class MeasureNucleiWidget(Widget):
             mso = MeasureSpotsOperator()
             mso.set_prominence(prominence)
             op.add_operator(mso)
+        if use_coloc:
+            secondary_image, scale = NapariBridge.get_image_as_xarray(
+                self.viewer, 
+                secondary_layer_name
+            )
+            mco = MeasureColocOperator()
+            mco.set_secondary_image(secondary_image)
+            op.add_operator(mco)
 
         return op
 
-    def displayResult(self):
+    def displayResult(self, *args):
         if self.operator is None:
             show_warning("No operator available to display results.")
             return

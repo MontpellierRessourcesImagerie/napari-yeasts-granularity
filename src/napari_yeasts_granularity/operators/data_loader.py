@@ -4,18 +4,10 @@ import tifffile as tiff
 
 
 class DataLoader:
-
-    root_labels_dir      = Path("/media/clement/fae534f3-f6ab-41aa-9554-baf3f7b791731/yeasts-granularity")
-    root_intensities_dir = Path("/home/clement/Documents/projects/2292-yeasts-granularity/2026-05-11-tiff")
-    root_results_dir     = Path("/media/clement/fae534f3-f6ab-41aa-9554-baf3f7b791731/results")
-
     def __init__(self, group_size=1, group_index=1, max_iter=float('inf')):
-        if not self.root_labels_dir.exists():
-            raise FileNotFoundError(f"Labels directory '{self.root_labels_dir}' does not exist.")
-        if not self.root_intensities_dir.exists():
-            raise FileNotFoundError(f"Intensities directory '{self.root_intensities_dir}' does not exist.")
-        if not self.root_results_dir.exists():
-            self.root_results_dir.mkdir(parents=True, exist_ok=True)
+        self.root_labels_dir = None
+        self.root_intensities_dir = None
+        self.root_results_dir = None
         
         self.images_list = []
         self.labels_list = []
@@ -29,6 +21,19 @@ class DataLoader:
         self.base_calib = {}
         self.n_iter = 0
 
+    def set_root_paths(self, intensities_dir, labels_dir, results_dir):
+        self.root_intensities_dir = Path(intensities_dir)
+        self.root_labels_dir = Path(labels_dir)
+        self.root_results_dir = Path(results_dir)
+        if not self.root_intensities_dir.exists():
+            raise FileNotFoundError(f"Intensities directory '{self.root_intensities_dir}' does not exist.")
+        if not self.root_labels_dir.exists():
+            self.root_labels_dir.mkdir(parents=True, exist_ok=True)
+        if not self.root_results_dir.exists():
+            self.root_results_dir.mkdir(parents=True, exist_ok=True)
+        self.images_list.clear()
+        self.labels_list.clear()
+        self.current_index = self.group_index - self.group_size
         self._load_images_from_root()
 
     def get_results_path(self, what):

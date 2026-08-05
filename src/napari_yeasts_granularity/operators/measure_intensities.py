@@ -43,7 +43,6 @@ class MeasureIntensitiesOperator(BaseMeasureOperator):
         else:
             return f"{key} ({what})"
 
-
     def _measure_objects_3D(self, labels_frame, intensity_frame, spacing, rows, t=0, nT=1):
         for metric_name, metric_func in self.metric_functions.items():
             metric_data = metric_func(intensity_frame, spacing)

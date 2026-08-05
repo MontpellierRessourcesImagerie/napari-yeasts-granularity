@@ -4,3 +4,4 @@ from .operators.measure_intensities import MeasureIntensitiesOperator
 from .operators.measure_shape_operator import MeasureShapeOperator
 from .operators.measure_spots_operator import MeasureSpotsOperator
 from .operators.measurements_manager import MeasurementsManager
+from .operators.measure_coloc_operator import MeasureColocOperator

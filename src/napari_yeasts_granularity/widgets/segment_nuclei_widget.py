@@ -78,7 +78,7 @@ class SegmentNucleiWidget(Widget):
 
         return op
 
-    def displayResult(self):
+    def displayResult(self, *args):
         if self.operator is None:
             show_warning("No operator available to display results.")
             return
