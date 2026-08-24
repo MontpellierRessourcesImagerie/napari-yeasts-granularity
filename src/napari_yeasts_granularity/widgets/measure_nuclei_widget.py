@@ -75,8 +75,8 @@ class MeasureNucleiWidget(Widget):
                 secondary_layer_name
             )
             mco = MeasureColocOperator()
-            mco.set_secondary_image(secondary_image)
             op.add_operator(mco)
+            mco.set_secondary_image(secondary_image)
 
         return op
 

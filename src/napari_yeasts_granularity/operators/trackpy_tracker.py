@@ -6,6 +6,7 @@ class TrackpyTracker(BaseTracker):
     
     def __init__(self):
         super().__init__()
+        tp.quiet(True)
 
     def linkTracks(self):
         if self.detections is None:

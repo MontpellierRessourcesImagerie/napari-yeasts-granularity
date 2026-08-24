@@ -21,6 +21,12 @@ class DataLoader:
         self.base_calib = {}
         self.n_iter = 0
 
+    def get_current_image_name(self):
+        if self.current_index < len(self.images_list):
+            return self.images_list[self.current_index].name
+        else:
+            return ""
+
     def set_root_paths(self, intensities_dir, labels_dir, results_dir):
         self.root_intensities_dir = Path(intensities_dir)
         self.root_labels_dir = Path(labels_dir)
@@ -97,6 +103,11 @@ class DataLoader:
             return (None, None)
         lbl = tiff.imread(self.labels_list[self.current_index])
         return lbl, ("ZYX" if lbl.ndim == 3 else "TZYX")
+
+    def labelsExist(self):
+        if self.current_index >= len(self.labels_list):
+            raise IndexError("Current index is out of bounds.")
+        return self.labels_list[self.current_index].exists()
     
     def save_labels(self, labels):
         if self.current_index >= len(self.labels_list):
