@@ -62,6 +62,8 @@ These metrics are computed from the local intensities of each individual nucleus
 
 The "Difference of Gaussians" filter is a band-pass filter. A small Gaussian is applied to the raw image to remove noise. At the same time, a large Gaussian is applied to isolate the base signal of the nuclei (≈ an estimate of the background). Finally, the result of the large Gaussian is subtracted from the result of the small Gaussian, leaving only the structures of interest. The resulting image should be exactly 0 where there is nothing, containing only structures that were not destroyed by the small Gaussian and are not part of the nuclei's baseline signal.
 
+<img width="1230" height="693" alt="DoG" src="https://github.com/user-attachments/assets/d0ab35ac-5fd3-4204-b93a-d83fa65b1986" />
+
 - **"Mean" and "Std. Dev."**: The mean and standard deviation of the values belonging to the nucleus. We expect the standard deviation to increase as granularity increases.
 - **"Q1" and "Q3"**: The 25th and 75th percentiles when all pixels belonging to the nucleus are sorted in ascending order. We expect Q1 to decrease and Q3 to increase as granularity increases (a lower Q1 and a higher Q3).
 - **"IQR"**: Interquartile range — the distance between Q1 and Q3. We expect it to increase with granularity.
@@ -69,5 +71,9 @@ The "Difference of Gaussians" filter is a band-pass filter. A small Gaussian is 
 - **"Solidity"**: Ratio of the object's volume to its convex hull volume. If the object is convex, the value is 1.0; the less convex it is, the closer the value tends toward 0.0.
 - **"Sphericity"**: Ratio of the object's volume to the volume of the smallest sphere able to contain it. If the object is a sphere, this equals 1.0, tending toward 0.0 the less spherical it is.
 - **"Num. spots"**: Number of local maxima with a prominence greater than the user-provided threshold (see figure below, where prominences are noted P1 and P2).
+
+<img width="1000" height="337" alt="prominence" src="https://github.com/user-attachments/assets/4eeadb0a-c1ee-4f7a-bee7-0f0a057bbee7" />
+
+
 - **"Pearson"**: Indicates whether the two channels follow the same trend. It tends toward 1.0 when a pixel that is high in C1 is also high in C2, or low in C1 and also low in C2. Conversely, it tends toward -1.0 when an increase in one channel corresponds to a decrease in the other. A value of 0.0 means the channels are uncorrelated.
 - **"p-value"**: Indicates how likely it is that the Pearson score for this nucleus arose by chance if there were actually no correlation. A p-value below 0.05 is generally considered statistically significant.
