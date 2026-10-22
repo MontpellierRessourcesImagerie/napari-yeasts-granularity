@@ -93,7 +93,7 @@ class MeasureSpotsOperator(BaseMeasureOperator):
 
     def _find_spots_3D(self, image, labels):
         preprocessed = self._preprocess_image_3D(image)
-        h_max = h_maxima(preprocessed, self.prominence)
+        h_max = h_maxima(preprocessed, self.prominence) * (labels > 0).astype(np.uint8)
         coordinates = np.where(h_max > 0)
         self.coordinates_buffer.append(np.column_stack(coordinates))
         cell_ids = labels[coordinates]

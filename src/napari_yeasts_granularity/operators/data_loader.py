@@ -48,11 +48,11 @@ class DataLoader:
         self._ensure_path(folder, create_if_missing=True)
         return folder / f"{current.stem}_{what}.csv"
 
-    def get_control_path(self, what):
+    def get_control_path(self, what, ext="tif"):
         current = self.images_list[self.current_index]
-        folder = self.root_results_dir / current.relative_to(self.root_intensities_dir).parent
+        folder = self.root_labels_dir / current.relative_to(self.root_intensities_dir).parent
         self._ensure_path(folder, create_if_missing=True)
-        return folder / f"{current.stem}_{what}.tif"
+        return folder / f"{current.stem}_{what}.{ext}"
 
     def set_base_calibration(self, calib_dict):
         self.base_calib = calib_dict
